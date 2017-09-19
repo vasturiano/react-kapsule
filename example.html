@@ -1,0 +1,37 @@
+<script src="//cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-dom.min.js"></script>
+
+<script src="//unpkg.com/kapsule"></script>
+<script src="//unpkg.com/react-kapsule"></script>
+
+<body></body>
+
+<script>
+    // Define kapsule component
+    const ColoredTextKapsule = Kapsule({
+        props: {
+            color: { default: 'red' },
+            text: {}
+        },
+
+        init(domElement, state) {
+            state.elem = document.createElement('span');
+            domElement.appendChild(state.elem);
+        },
+
+        update(state) {
+            state.elem.style.color = state.color;
+            state.elem.textContent = state.text;
+        }
+    });
+
+    // Render via React
+    const ColoredText = fromKapsule(ColoredTextKapsule);
+    ReactDOM.render(
+        React.createElement(
+            ColoredText,
+            { color: 'blue', text: 'foo'}
+        ),
+        document.body
+    );
+</script>

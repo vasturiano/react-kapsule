@@ -1,0 +1,50 @@
+{
+  "name": "react-kapsule",
+  "version": "1.0.0",
+  "description": "A React wrapper for Kapsule-style web components",
+  "main": "dist/react-kapsule.js",
+  "jsnext:main": "index",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vasturiano/react-kapsule.git"
+  },
+  "keywords": [
+    "react",
+    "wrapper",
+    "kapsule",
+    "web",
+    "component"
+  ],
+  "author": {
+    "name": "Vasco Asturiano",
+    "url": "http://bl.ocks.org/vasturiano"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vasturiano/react-kapsule/issues"
+  },
+  "homepage": "https://github.com/vasturiano/react-kapsule",
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --progress --colors --watch",
+    "minify": "uglifyjs dist/react-kapsule.js -o dist/react-kapsule.min.js -c -m",
+    "prepublish": "npm run build && npm run minify"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "react": "*"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.7",
+    "style-loader": "^0.18.2",
+    "uglify-js": "^3.1.0",
+    "webpack": "^3.5.6"
+  }
+}
