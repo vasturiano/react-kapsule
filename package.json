@@ -1,6 +1,6 @@
 {
   "name": "react-kapsule",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A React wrapper for Kapsule-style web components",
   "main": "dist/react-kapsule.js",
   "jsnext:main": "index",
