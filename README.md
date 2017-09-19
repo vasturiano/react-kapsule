@@ -40,6 +40,6 @@ ReactDOM.render(
         prop1="a value"
         prop2="another value"
     />, 
-    <myDOMElement>
+    myDOMElement
 );
 ```
