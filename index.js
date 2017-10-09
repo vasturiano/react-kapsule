@@ -24,6 +24,13 @@ export default function(kapsuleComponent, wrapperElType = 'div') {
       });
     }
 
+    componentWillUnmount() {
+      // Invoke _destructor, if it exists
+      if (typeof this.state.comp._destructor === 'function') {
+        this.state.comp._destructor();
+      }
+    }
+
     render() {
       return React.createElement(
         wrapperElType,
