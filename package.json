@@ -2,7 +2,8 @@
   "name": "react-kapsule",
   "version": "1.2.3",
   "description": "A React wrapper for Kapsule-style web components",
-  "main": "dist/react-kapsule.js",
+  "main": "dist/react-kapsule.min.js",
+  "module": "dist/react-kapsule.mjs",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vasturiano/react-kapsule.git"
