@@ -27,8 +27,9 @@
   "scripts": {
     "build": "rm -rf dist && mkdir dist && rollup -c",
     "watch": "rollup -c -w",
-    "minify": "uglifyjs dist/react-kapsule.js -o dist/react-kapsule.min.js -c -m",
-    "prepublish": "npm run build && npm run minify"
+    "minify": "uglifyjs dist/react-kapsule.js -o dist/react-kapsule.min.js -c -m --comments '/Version/'",
+    "build-module": "rollup -c rollup.config.module.js",
+    "prepublish": "npm run build && npm run minify && npm run build-module"
   },
   "dependencies": {},
   "peerDependencies": {

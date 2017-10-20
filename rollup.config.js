@@ -1,6 +1,7 @@
 import commonJs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
+import { name, homepage, version } from './package.json';
 
 export default {
     external: ['react'],
@@ -12,10 +13,6 @@ export default {
             name: 'fromKapsule',
             file: 'dist/react-kapsule.js',
             sourcemap: true
-        },
-        {
-            format: 'es',
-            file: 'dist/react-kapsule.mjs'
         }
     ],
     plugins: [
@@ -33,5 +30,6 @@ export default {
             ],
             babelrc: false
         })
-    ]
+    ],
+    banner: `// Version ${version} ${name} - ${homepage}`
 };
