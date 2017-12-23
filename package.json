@@ -4,7 +4,7 @@
   "description": "A React wrapper for Kapsule-style web components",
   "unpkg": "dist/react-kapsule.min.js",
   "main": "dist/react-kapsule.common.js",
-  "module": "dist/react-kapsule.mjs",
+  "module": "dist/react-kapsule.module.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vasturiano/react-kapsule.git"
