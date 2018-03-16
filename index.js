@@ -7,7 +7,10 @@ export default function(kapsuleComponent, wrapperElType = 'div') {
     };
 
     // Call a component method
-    call = (method, ...args) => this.state.comp[method](...args);
+    call = (method, ...args) =>
+      this.state.comp[method] instanceof Function
+        ? this.state.comp[method](...args)
+        : undefined; // method not found
 
     componentDidMount() {
       Object.keys(this.props).forEach(p => {
@@ -26,7 +29,7 @@ export default function(kapsuleComponent, wrapperElType = 'div') {
 
     componentWillUnmount() {
       // Invoke _destructor, if it exists
-      if (typeof this.state.comp._destructor === 'function') {
+      if (this.state.comp._destructor instanceof Function) {
         this.state.comp._destructor();
       }
     }
