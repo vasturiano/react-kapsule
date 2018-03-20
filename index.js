@@ -1,20 +1,20 @@
 import React from 'react';
 
-export default function(kapsuleComponent, wrapperElType = 'div') {
-  return class extends React.PureComponent {
+export default function(kapsuleComponent, wrapperElType = 'div', bindMethodNames = []) {
+  class FromKapsuleComp extends React.PureComponent {
     state = {
       comp: kapsuleComponent()
     };
 
     // Call a component method
-    call = (method, ...args) =>
+    _call = (method, ...args) =>
       this.state.comp[method] instanceof Function
         ? this.state.comp[method](...args)
         : undefined; // method not found
 
     componentDidMount() {
       Object.keys(this.props).forEach(p => {
-        this.call(p, this.props[p]);
+        this._call(p, this.props[p]);
       });
       this.state.comp(this.rootElem);
     }
@@ -22,7 +22,7 @@ export default function(kapsuleComponent, wrapperElType = 'div') {
     componentDidUpdate(prevProps) {
       Object.keys(this.props).forEach(p => {
         if (prevProps[p] !== this.props[p]) {
-          this.call(p, this.props[p]);
+          this._call(p, this.props[p]);
         }
       });
     }
@@ -41,4 +41,12 @@ export default function(kapsuleComponent, wrapperElType = 'div') {
       );
     }
   }
+
+  bindMethodNames.forEach(method => {
+    FromKapsuleComp.prototype[method] = function(...args) {
+      return this._call(method, ...args);
+    }
+  });
+
+  return FromKapsuleComp;
 }
