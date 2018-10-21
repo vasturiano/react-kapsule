@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function(kapsuleComponent, wrapperElType = 'div', bindMethodNames = []) {
+export default function(kapsuleComponent, wrapperElType = 'div', bindMethodNames = [], configOptions) {
   class FromKapsuleComp extends React.PureComponent {
     state = {
-      comp: kapsuleComponent()
+      comp: kapsuleComponent(configOptions)
     };
 
     // Call a component method
