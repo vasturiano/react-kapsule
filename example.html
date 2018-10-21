@@ -3,35 +3,36 @@
 
 <script src="//unpkg.com/kapsule"></script>
 <script src="//unpkg.com/react-kapsule"></script>
+<!--<script src="dist/react-kapsule.js"></script>-->
 
 <body></body>
 
 <script>
-    // Define kapsule component
-    const ColoredTextKapsule = Kapsule({
-        props: {
-            color: { default: 'red' },
-            text: {}
-        },
+  // Define kapsule component
+  const ColoredTextKapsule = Kapsule({
+    props: {
+      color: { default: 'red' },
+      text: {}
+    },
 
-        init(domElement, state) {
-            state.elem = document.createElement('span');
-            domElement.appendChild(state.elem);
-        },
+    init(domElement, state) {
+      state.elem = document.createElement('span');
+      domElement.appendChild(state.elem);
+    },
 
-        update(state) {
-            state.elem.style.color = state.color;
-            state.elem.textContent = state.text;
-        }
-    });
+    update(state) {
+      state.elem.style.color = state.color;
+      state.elem.textContent = state.text;
+    }
+  });
 
-    // Render via React
-    const ColoredText = fromKapsule(ColoredTextKapsule);
-    ReactDOM.render(
-        React.createElement(
-            ColoredText,
-            { color: 'blue', text: 'foo' }
-        ),
-        document.body
-    );
+  // Render via React
+  const ColoredText = fromKapsule(ColoredTextKapsule);
+  ReactDOM.render(
+    React.createElement(
+      ColoredText,
+      { color: 'blue', text: 'foo' }
+    ),
+    document.body
+  );
 </script>
