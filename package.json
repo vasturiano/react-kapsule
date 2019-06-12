@@ -1,6 +1,6 @@
 {
   "name": "react-kapsule",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "A React wrapper for Kapsule-style web components",
   "unpkg": "dist/react-kapsule.min.js",
   "main": "dist/react-kapsule.common.js",
@@ -31,7 +31,6 @@
     "minify": "terser dist/react-kapsule.js -o dist/react-kapsule.min.js -c -m --comments '/Version/'",
     "build-module": "rollup -c rollup.config.module.js",
     "prepare": "npm run build && npm run minify && npm run build-module"
-
   },
   "files": [
     "dist/**/*"
