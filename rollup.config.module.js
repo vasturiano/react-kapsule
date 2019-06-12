@@ -2,7 +2,7 @@ import babel from 'rollup-plugin-babel';
 import { name, dependencies, peerDependencies } from './package.json';
 
 export default {
-    input: 'index.js',
+    input: 'src/index.js',
     output: [
         {
             format: 'cjs',

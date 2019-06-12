@@ -3,7 +3,7 @@ import { name, homepage, version } from './package.json';
 
 export default {
   external: ['react'],
-  input: 'index.js',
+  input: 'src/index.js',
   output: [
     {
       format: 'umd',
