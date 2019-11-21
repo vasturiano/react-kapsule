@@ -23,7 +23,7 @@ export default function(kapsuleComponent, wrapperElType = 'div', bindMethodNames
 
     _getDynamicProps = () => {
       const dynamicProps = Object.assign({}, this.props);
-      initProps.forEach(initProp => delete dynamicProps[initProp]); // initProps should not be called
+      [...bindMethodNames, ...initProps].forEach(prop => delete dynamicProps[prop]); // initProps or methodNames should not be called
       return dynamicProps;
     };
 
