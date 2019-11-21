@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 import { omit } from 'jerrypick';
 
@@ -16,22 +16,11 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
       initPropNames: restArgs[1] || undefined
     };
 
-  const FromKapsuleComp = props => {
+  const FromKapsuleComp = ({ comp, ...props }) => {
     const domEl = useRef();
 
     const [prevProps, setPrevProps] = useState({});
     useEffect(() => setPrevProps(props)); // remember previous props
-
-    // instantiate the inner kapsule component with the defined initPropNames
-    const comp = useMemo(() => {
-      const configOptions = Object.fromEntries(
-        initPropNames
-          .filter(p => props.hasOwnProperty(p))
-          .map(prop => [prop, props[prop]])
-      );
-
-      return kapsuleComponent(configOptions);
-    }, []);
 
     useEffect(() => {
       // mount kapsule on this element ref
@@ -57,11 +46,43 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
     return React.createElement(wrapperElementType, { ref: domEl });
   };
 
+  // to bind component methods
+  class OuterComp extends React.Component {
+    constructor(props) {
+      super(props);
+
+      const configOptions = Object.fromEntries(
+        initPropNames
+          .filter(p => props.hasOwnProperty(p))
+          .map(prop => [prop, props[prop]])
+      );
+
+      this.state = {
+        // instantiate the inner kapsule component with the defined initPropNames
+        comp: kapsuleComponent(configOptions)
+      }
+    }
+
+    // Call a component method
+    _call = (method, ...args) =>
+      this.state.comp[method] instanceof Function
+        ? this.state.comp[method](...args)
+        : undefined; // method not found
+
+    render() {
+      return <FromKapsuleComp
+        comp={this.state.comp}
+        {...this.props}
+      />;
+    };
+  }
+
+  // bind external methods
   methodNames.forEach(method =>
-    FromKapsuleComp.prototype[method] = function(...args) {
+    OuterComp.prototype[method] = function(...args) {
       return this._call(method, ...args);
     }
   );
 
-  return FromKapsuleComp;
+  return OuterComp;
 }
