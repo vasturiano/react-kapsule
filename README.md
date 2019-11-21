@@ -14,7 +14,7 @@ import fromKapsule from 'react-kapsule';
 ```
 or
 ```
-var fromKapsule = require('react-kapsule');
+const fromKapsule = require('react-kapsule');
 ```
 or even
 ```
@@ -64,6 +64,7 @@ A React component that includes the methods of the kapsule component available a
 Any closure based functional component which accepts prop changes as functional methods. Following the spec in [reusable charts pattern](https://bost.ocks.org/mike/chart/). Can be conveniently defined using the [Kapsule](https://github.com/vasturiano/kapsule) framework. 
 
 * options
+
  An object with configuration options that can be used to define the React component. For example:
  ```
  {
@@ -71,10 +72,11 @@ Any closure based functional component which accepts prop changes as functional 
  }
  ```
  
+ 
 | Option | Type | Default | Description |
 | --- | :--: | :--: | --- |
-| <b>wrapperElementType</b> | <i>string</i> or <React component>| `'div'` | The type of DOM element used by the underlying [React createElement](https://reactjs.org/docs/react-api.html#createelement) to mount the component. Can be either a tag name string (such as `'div'` or `'span'`) or a [React component](https://reactjs.org/docs/components-and-props.html) type (a class or a function). |
-| <b>methodNames</b> | <i>array of strings</i>| `[]` | The list of kapsule component methods that should be available as React component bound methods, instead of direct props. Generally these methods will be called via the component `ref`, i.e. `myComponentRef.current.myMethod(...)`. |
+| <b>wrapperElementType</b> | <i>string</i> or <i>React component</i>| `'div'` | The type of DOM element used by the underlying [React createElement](https://reactjs.org/docs/react-api.html#createelement) to mount the component. Can be either a tag name string (such as `'div'` or `'span'`) or a [React component](https://reactjs.org/docs/components-and-props.html) type (a class or a function). |
+| <b>methodNames</b> | <i>array of strings</i>| `[]` | The list of kapsule [component methods](https://github.com/vasturiano/kapsule#methods--methodname-functionstate-args-----) that should be available as React component bound methods, instead of direct props. Generally these methods will be called via the component `ref`, i.e. `myComponentRef.current.myMethod(...)`. |
 | <b>initPropNames</b> | <i>array of strings</i> | `[]` | The list of props that are intended to be passed as [configuration options](https://github.com/vasturiano/kapsule#generation) to the kapsule component's instantiation call. Modifying the values of these props after the initial mount of the React component will have no effect. |
 
 
