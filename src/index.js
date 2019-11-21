@@ -1,4 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+  forwardRef,
+  useImperativeHandle
+} from 'react';
 
 import { omit } from 'jerrypick';
 
@@ -16,11 +24,22 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
       initPropNames: restArgs[1] || undefined
     };
 
-  const FromKapsuleComp = ({ comp, ...props }) => {
+  return forwardRef((props, ref) => {
     const domEl = useRef();
 
     const [prevProps, setPrevProps] = useState({});
     useEffect(() => setPrevProps(props)); // remember previous props
+
+    // instantiate the inner kapsule component with the defined initPropNames
+    const comp = useMemo(() => {
+      const configOptions = Object.fromEntries(
+        initPropNames
+          .filter(p => props.hasOwnProperty(p))
+          .map(prop => [prop, props[prop]])
+      );
+
+      return kapsuleComponent(configOptions);
+    }, []);
 
     useEffect(() => {
       // mount kapsule on this element ref
@@ -43,46 +62,16 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
       .filter(p => prevProps[p] !== props[p])
       .forEach(p => _call(p, props[p]));
 
+    // bind external methods to parent ref
+    useImperativeHandle(ref, () => Object.fromEntries(
+      methodNames.map(method =>
+        [
+          method,
+          (...args) => _call(method, ...args)
+        ]
+      )
+    ));
+
     return React.createElement(wrapperElementType, { ref: domEl });
-  };
-
-  // to bind component methods
-  class OuterComp extends React.Component {
-    constructor(props) {
-      super(props);
-
-      const configOptions = Object.fromEntries(
-        initPropNames
-          .filter(p => props.hasOwnProperty(p))
-          .map(prop => [prop, props[prop]])
-      );
-
-      this.state = {
-        // instantiate the inner kapsule component with the defined initPropNames
-        comp: kapsuleComponent(configOptions)
-      }
-    }
-
-    // Call a component method
-    _call = (method, ...args) =>
-      this.state.comp[method] instanceof Function
-        ? this.state.comp[method](...args)
-        : undefined; // method not found
-
-    render() {
-      return <FromKapsuleComp
-        comp={this.state.comp}
-        {...this.props}
-      />;
-    };
-  }
-
-  // bind external methods
-  methodNames.forEach(method =>
-    OuterComp.prototype[method] = function(...args) {
-      return this._call(method, ...args);
-    }
-  );
-
-  return OuterComp;
+  });
 }
