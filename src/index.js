@@ -2,7 +2,19 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 
 import { omit } from 'jerrypick';
 
-export default function(kapsuleComponent, wrapperElType = 'div', bindMethodNames = [], initProps = []) {
+export default function(kapsuleComponent, comboParam, ...restArgs) {
+
+  const {
+    wrapperElementType = 'div',
+    methodNames = [],
+    initPropNames = []
+  } = typeof comboParam === 'object'
+    ? comboParam
+    : { // support old schema for backwards compatibility
+      wrapperElementType: comboParam,
+      methodNames: restArgs[0] || undefined,
+      initPropNames: restArgs[1] || undefined
+    };
 
   const FromKapsuleComp = props => {
     const domEl = useRef();
@@ -10,10 +22,10 @@ export default function(kapsuleComponent, wrapperElType = 'div', bindMethodNames
     const [prevProps, setPrevProps] = useState({});
     useEffect(() => setPrevProps(props)); // remember previous props
 
-    // instantiate the inner kapsule component with the defined initProps
+    // instantiate the inner kapsule component with the defined initPropNames
     const comp = useMemo(() => {
       const configOptions = Object.fromEntries(
-        initProps
+        initPropNames
           .filter(p => props.hasOwnProperty(p))
           .map(prop => [prop, props[prop]])
       );
@@ -37,15 +49,15 @@ export default function(kapsuleComponent, wrapperElType = 'div', bindMethodNames
     , [comp]);
 
     // propagate component props that have changed
-    const dynamicProps = omit(props, [...bindMethodNames, ...initProps]); // initProps or methodNames should not be called
+    const dynamicProps = omit(props, [...methodNames, ...initPropNames]); // initPropNames or methodNames should not be called
     Object.keys(dynamicProps)
       .filter(p => prevProps[p] !== props[p])
       .forEach(p => _call(p, props[p]));
 
-    return React.createElement(wrapperElType, { ref: domEl });
+    return React.createElement(wrapperElementType, { ref: domEl });
   };
 
-  bindMethodNames.forEach(method =>
+  methodNames.forEach(method =>
     FromKapsuleComp.prototype[method] = function(...args) {
       return this._call(method, ...args);
     }
