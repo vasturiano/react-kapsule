@@ -1,67 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+
+import { omit } from 'jerrypick';
 
 export default function(kapsuleComponent, wrapperElType = 'div', bindMethodNames = [], initProps = []) {
-  class FromKapsuleComp extends React.PureComponent {
-    constructor(props) {
-      super(props);
 
-      const configOptions = Object.assign({}, ...initProps
-        .filter(p => props.hasOwnProperty(p))
-        .map(prop => ({ [prop]: props[prop] }))
+  const FromKapsuleComp = props => {
+    const domEl = useRef();
+
+    const [prevProps, setPrevProps] = useState({});
+    useEffect(() => setPrevProps(props)); // remember previous props
+
+    // instantiate the inner kapsule component with the defined initProps
+    const comp = useMemo(() => {
+      const configOptions = Object.fromEntries(
+        initProps
+          .filter(p => props.hasOwnProperty(p))
+          .map(prop => [prop, props[prop]])
       );
 
-      this.state = {
-        comp: kapsuleComponent(configOptions)
-      }
-    }
+      return kapsuleComponent(configOptions);
+    }, []);
+
+    useEffect(() => {
+      // mount kapsule on this element ref
+      comp(domEl.current);
+
+      // invoke destructor on unmount, if it exists
+      return (comp._destructor instanceof Function) && comp._destructor;
+    }, []);
 
     // Call a component method
-    _call = (method, ...args) =>
-      this.state.comp[method] instanceof Function
-        ? this.state.comp[method](...args)
-        : undefined; // method not found
+    const _call = useCallback((method, ...args) =>
+      comp[method] instanceof Function
+        ? comp[method](...args)
+        : undefined // method not found
+    , [comp]);
 
-    _getDynamicProps = () => {
-      const dynamicProps = Object.assign({}, this.props);
-      [...bindMethodNames, ...initProps].forEach(prop => delete dynamicProps[prop]); // initProps or methodNames should not be called
-      return dynamicProps;
-    };
+    // propagate component props that have changed
+    const dynamicProps = omit(props, [...bindMethodNames, ...initProps]); // initProps or methodNames should not be called
+    Object.keys(dynamicProps)
+      .filter(p => prevProps[p] !== props[p])
+      .forEach(p => _call(p, props[p]));
 
-    componentDidMount() {
-      Object.keys(this._getDynamicProps()).forEach(p => {
-        this._call(p, this.props[p]);
-      });
-      this.state.comp(this.rootElem);
-    }
+    return React.createElement(wrapperElType, { ref: domEl });
+  };
 
-    componentDidUpdate(prevProps) {
-      Object.keys(this._getDynamicProps()).forEach(p => {
-        if (prevProps[p] !== this.props[p]) {
-          this._call(p, this.props[p]);
-        }
-      });
-    }
-
-    componentWillUnmount() {
-      // Invoke _destructor, if it exists
-      if (this.state.comp._destructor instanceof Function) {
-        this.state.comp._destructor();
-      }
-    }
-
-    render() {
-      return React.createElement(
-        wrapperElType,
-        { ref: elem => { this.rootElem = elem } }
-      );
-    }
-  }
-
-  bindMethodNames.forEach(method => {
+  bindMethodNames.forEach(method =>
     FromKapsuleComp.prototype[method] = function(...args) {
       return this._call(method, ...args);
     }
-  });
+  );
 
   return FromKapsuleComp;
 }
