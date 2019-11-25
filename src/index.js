@@ -10,6 +10,8 @@ import React, {
 
 import { omit } from 'jerrypick';
 
+import fromEntries from 'fromentries'
+
 export default function(kapsuleComponent, comboParam, ...restArgs) {
 
   const {
@@ -32,7 +34,7 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
 
     // instantiate the inner kapsule component with the defined initPropNames
     const comp = useMemo(() => {
-      const configOptions = Object.fromEntries(
+      const configOptions = fromEntries(
         initPropNames
           .filter(p => props.hasOwnProperty(p))
           .map(prop => [prop, props[prop]])
@@ -63,7 +65,7 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
       .forEach(p => _call(p, props[p]));
 
     // bind external methods to parent ref
-    useImperativeHandle(ref, () => Object.fromEntries(
+    useImperativeHandle(ref, () => fromEntries(
       methodNames.map(method =>
         [
           method,
