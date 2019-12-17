@@ -1,6 +1,7 @@
 import React, {
   useState,
   useEffect,
+  useLayoutEffect,
   useRef,
   useMemo,
   useCallback,
@@ -43,10 +44,11 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
       return kapsuleComponent(configOptions);
     }, []);
 
-    useEffect(() => {
-      // mount kapsule on this element ref
-      comp(domEl.current);
+    useLayoutEffect(() => {
+      comp(domEl.current); // mount kapsule synchronously on this element ref
+    }, []);
 
+    useEffect(() => {
       // invoke destructor on unmount, if it exists
       return (comp._destructor instanceof Function) && comp._destructor;
     }, []);
