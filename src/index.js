@@ -50,7 +50,7 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
 
     useEffect(() => {
       // invoke destructor on unmount, if it exists
-      return (comp._destructor instanceof Function) && comp._destructor;
+      return comp._destructor instanceof Function ? comp._destructor : undefined;
     }, []);
 
     // Call a component method
