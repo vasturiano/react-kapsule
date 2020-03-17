@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Kapsule from 'kapsule';
+import { KapsuleClosure } from 'kapsule';
 
 interface FromKapsuleOptions {
   wrapperElementType?: string | React.Component;
@@ -8,7 +8,7 @@ interface FromKapsuleOptions {
 }
 
 declare function fromKapsule(
-  kapsule: Kapsule,
+  kapsule: KapsuleClosure,
   options?: FromKapsuleOptions
 ): React.Component;
 

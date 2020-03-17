@@ -1119,10 +1119,10 @@ json5@^2.1.0:
   dependencies:
     minimist "^1.2.5"
 
-kapsule@^1.13.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/kapsule/-/kapsule-1.13.1.tgz#22def65816fe85da4f1dfa6b6e5810ee4f0cb45d"
-  integrity sha512-RJjenkfTBiLNnT0fpNbFcWaKQB/bDnAivva57EDpEFJ4HwtF8kxHxc0uQdhgaGvbcRhbqLiNto5M+Sw0UGw+EQ==
+kapsule@^1.13.3:
+  version "1.13.3"
+  resolved "https://registry.yarnpkg.com/kapsule/-/kapsule-1.13.3.tgz#01092e9ee1f1da10e511d91b45e57198b1fe7b90"
+  integrity sha512-Qgzn1p0ywJsXJ3NBjIGst/EGvH2VF+YeVsVfWHZ1ZFX1v7AJfz215OWf3mRFy6NZBbN67yc1qUxAuJU+vuTtAA==
   dependencies:
     debounce "^1.2.0"
 
