@@ -7,9 +7,9 @@ interface FromKapsuleOptions {
   initPropNames?: string[];
 }
 
-declare function fromKapsule(
+declare function fromKapsule<Props ={}, Methods = {}>(
   kapsule: KapsuleClosure,
   options?: FromKapsuleOptions
-): React.Component;
+): React.FunctionComponent<Props & { ref?: React.MutableRefObject<Methods> }>;
 
 export default fromKapsule;
