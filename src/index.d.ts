@@ -10,6 +10,6 @@ interface FromKapsuleOptions {
 declare function fromKapsule<Props ={}, Methods = {}>(
   kapsule: KapsuleClosure,
   options?: FromKapsuleOptions
-): React.FunctionComponent<Props & { ref?: React.MutableRefObject<Methods> }>;
+): React.FunctionComponent<Props & { ref?: React.MutableRefObject<Methods | undefined> }>;
 
 export default fromKapsule;
