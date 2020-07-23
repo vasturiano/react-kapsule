@@ -3,6 +3,7 @@ import { KapsuleClosure } from 'kapsule';
 
 interface FromKapsuleOptions {
   wrapperElementType?: string | React.Component;
+  nodeMapper?: (node: HTMLElement) => any;
   methodNames?: string[];
   initPropNames?: string[];
 }

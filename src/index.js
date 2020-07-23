@@ -17,6 +17,7 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
 
   const {
     wrapperElementType = 'div',
+    nodeMapper = node => node,
     methodNames = [],
     initPropNames = []
   } = typeof comboParam === 'object'
@@ -45,7 +46,7 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
     }, []);
 
     useLayoutEffect(() => {
-      comp(domEl.current); // mount kapsule synchronously on this element ref
+      comp(nodeMapper(domEl.current)); // mount kapsule synchronously on this element ref, optionally mapped into an object that the kapsule understands
     }, []);
 
     useEffect(() => {
