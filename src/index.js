@@ -11,7 +11,7 @@ import React, {
 
 import { omit } from 'jerrypick';
 
-import fromEntries from 'fromentries'
+import fromEntries from 'fromentries';
 
 export default function(kapsuleComponent, comboParam, ...restArgs) {
 
