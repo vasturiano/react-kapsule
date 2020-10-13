@@ -5,7 +5,7 @@ react-kapsule
 [![Build Size][build-size-img]][build-size-url]
 [![Dependencies][dependencies-img]][dependencies-url]
 
-A React HOC wrapper for [kapsule](https://github.com/vasturiano/kapsule)-style web components.
+A React wrapper for [kapsule](https://github.com/vasturiano/kapsule)-style web components.
 
 ## Quick start
 
