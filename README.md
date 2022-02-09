@@ -3,53 +3,53 @@ react-kapsule
 
 [![NPM package][npm-img]][npm-url]
 [![Build Size][build-size-img]][build-size-url]
-[![Dependencies][dependencies-img]][dependencies-url]
+[![NPM Downloads][npm-downloads-img]][npm-downloads-url]
 
 A React wrapper for [kapsule](https://github.com/vasturiano/kapsule)-style web components.
 
 ## Quick start
 
-```
+```js
 import fromKapsule from 'react-kapsule';
 ```
 or
-```
+```js
 const fromKapsule = require('react-kapsule');
 ```
 or even
-```
+```html
 <script src="//unpkg.com/react-kapsule"></script>
 ```
 
 ## Usage example
 
 ### Given a kapsule component:
-```
+```js
 const myKapsule = Kapsule({ 
-    props: {
-        prop1: {},
-        prop2: {}
-    },
-    ... 
+  props: {
+    prop1: {},
+    prop2: {}
+  },
+  ...
 });
 ```
 
 ### Render it in React:
-```
+```jsx
 const MyKapsuleComponent = fromKapsule(myKapsule);
 
 ReactDOM.render(
-    <MyKapsuleComponent
-        prop1="a value"
-        prop2="another value"
-    />, 
-    myDOMElement
+  <MyKapsuleComponent
+    prop1="a value"
+    prop2="another value"
+  />,
+  myDOMElement
 );
 ```
 
 ## API reference
 
-```
+```js
 const MyComponent = fromKapsule(kapsuleComponent, options);
 ```
 
@@ -66,7 +66,7 @@ Any closure based functional component which accepts prop changes as functional 
 * options
 
  An object with configuration options that can be used to define the React component. For example:
- ```
+ ```js
  {
    wrapperElementType: 'span'
  }
@@ -80,9 +80,9 @@ Any closure based functional component which accepts prop changes as functional 
 | <b>initPropNames</b> | <i>array of strings</i> | `[]` | The list of props that are intended to be passed as [configuration options](https://github.com/vasturiano/kapsule#generation) to the kapsule component's instantiation call. Modifying the values of these props after the initial mount of the React component will have no effect. |
 
 
-[npm-img]: https://img.shields.io/npm/v/react-kapsule.svg
+[npm-img]: https://img.shields.io/npm/v/react-kapsule
 [npm-url]: https://npmjs.org/package/react-kapsule
-[build-size-img]: https://img.shields.io/bundlephobia/minzip/react-kapsule.svg
+[build-size-img]: https://img.shields.io/bundlephobia/minzip/react-kapsule
 [build-size-url]: https://bundlephobia.com/result?p=react-kapsule
-[dependencies-img]: https://img.shields.io/david/vasturiano/react-kapsule.svg
-[dependencies-url]: https://david-dm.org/vasturiano/react-kapsule
+[npm-downloads-img]: https://img.shields.io/npm/dt/react-kapsule
+[npm-downloads-url]: https://www.npmtrends.com/react-kapsule
