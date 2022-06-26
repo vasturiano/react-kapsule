@@ -1,5 +1,14 @@
 import * as React from 'react';
-import { KapsuleClosure } from 'kapsule';
+
+type PropGetter = () => any;
+type PropSetter = (val: any) => KapsuleInstance;
+type CompMethod = (...args: any[]) => any;
+
+interface KapsuleInstance {
+  (element: HTMLElement): KapsuleInstance;
+  [propOrMethod: string]: PropGetter | PropSetter | CompMethod | any;
+}
+type Kapsule = (initOptions?: object) => KapsuleInstance;
 
 interface FromKapsuleOptions {
   wrapperElementType?: string | React.Component;
@@ -9,7 +18,7 @@ interface FromKapsuleOptions {
 }
 
 declare function fromKapsule<Props ={}, Methods = {}>(
-  kapsule: KapsuleClosure,
+  kapsule: Kapsule,
   options?: FromKapsuleOptions
 ): React.FunctionComponent<Props & { ref?: React.MutableRefObject<Methods | undefined> }>;
 
