@@ -49,7 +49,7 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
       comp(nodeMapper(domEl.current)); // mount kapsule synchronously on this element ref, optionally mapped into an object that the kapsule understands
     }, []);
 
-    useEffect(() => {
+    useEffectStrictNoop(() => {
       // invoke destructor on unmount, if it exists
       return comp._destructor instanceof Function ? comp._destructor : undefined;
     }, []);
@@ -79,4 +79,16 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
 
     return React.createElement(wrapperElementType, { ref: domEl });
   });
+}
+
+//
+
+function useEffectStrictNoop(effect, deps) {
+  const unmountTimeout = useRef();
+  useEffect(() => {
+    clearTimeout(unmountTimeout.current);
+    const unmountFn = effect();
+    if (unmountFn)
+      return () => (unmountTimeout.current = setTimeout(unmountFn));
+  }, deps);
 }
