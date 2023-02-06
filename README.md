@@ -12,11 +12,7 @@ A React wrapper for [kapsule](https://github.com/vasturiano/kapsule)-style web c
 ```js
 import fromKapsule from 'react-kapsule';
 ```
-or
-```js
-const fromKapsule = require('react-kapsule');
-```
-or even
+or using a *script* tag
 ```html
 <script src="//unpkg.com/react-kapsule"></script>
 ```
