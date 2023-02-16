@@ -45,14 +45,14 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
       return kapsuleComponent(configOptions);
     }, []);
 
-    useLayoutEffect(() => {
+    useEffectOnce(() => {
       comp(nodeMapper(domEl.current)); // mount kapsule synchronously on this element ref, optionally mapped into an object that the kapsule understands
-    }, []);
+    }, useLayoutEffect);
 
-    useEffectStrictNoop(() => {
+    useEffectOnce(() => {
       // invoke destructor on unmount, if it exists
       return comp._destructor instanceof Function ? comp._destructor : undefined;
-    }, []);
+    });
 
     // Call a component method
     const _call = useCallback((method, ...args) =>
@@ -83,12 +83,32 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
 
 //
 
-function useEffectStrictNoop(effect, deps) {
-  const unmountTimeout = useRef();
-  useEffect(() => {
-    clearTimeout(unmountTimeout.current);
-    const unmountFn = effect();
-    if (unmountFn)
-      return () => (unmountTimeout.current = setTimeout(unmountFn));
-  }, deps);
+// Handle R18 strict mode double mount at init
+function useEffectOnce(effect, useEffectFn = useEffect) {
+  const destroyFunc = useRef();
+  const effectCalled = useRef(false);
+  const renderAfterCalled = useRef(false);
+  const [val, setVal] = useState(0);
+
+  if (effectCalled.current) {
+    renderAfterCalled.current = true;
+  }
+
+  useEffectFn(() => {
+    // only execute the effect first time around
+    if (!effectCalled.current) {
+      destroyFunc.current = effect();
+      effectCalled.current = true;
+    }
+
+    // this forces one render after the effect is run
+    setVal((val) => val + 1);
+
+    return () => {
+      // if the comp didn't render since the useEffect was called,
+      // we know it's the dummy React cycle
+      if (!renderAfterCalled.current) return;
+      if (destroyFunc.current) destroyFunc.current();
+    };
+  }, []);
 }
