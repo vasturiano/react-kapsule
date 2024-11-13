@@ -13,6 +13,8 @@ import { omit } from 'jerrypick';
 
 import fromEntries from 'fromentries';
 
+const shallowEq = (o1, o2) => Object.keys(o1).length === Object.keys(o2).length && Object.keys(o1).every((k) => o1[k] === o2[k]);
+
 export default function(kapsuleComponent, comboParam, ...restArgs) {
 
   const {
@@ -32,7 +34,7 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
     const domEl = useRef();
 
     const [prevProps, setPrevProps] = useState({});
-    useEffect(() => setPrevProps(props)); // remember previous props
+    useEffect(() => { !shallowEq(props, prevProps) && setPrevProps(props) }); // remember previous props
 
     // instantiate the inner kapsule component with the defined initPropNames
     const comp = useMemo(() => {
