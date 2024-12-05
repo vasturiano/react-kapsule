@@ -11,34 +11,19 @@ import React, {
 
 import { omit } from 'jerrypick';
 
-import fromEntries from 'fromentries';
-
-const shallowEq = (o1, o2) => Object.keys(o1).length === Object.keys(o2).length && Object.keys(o1).every((k) => o1[k] === o2[k]);
-
-export default function(kapsuleComponent, comboParam, ...restArgs) {
-
-  const {
-    wrapperElementType = 'div',
-    nodeMapper = node => node,
-    methodNames = [],
-    initPropNames = []
-  } = typeof comboParam === 'object'
-    ? comboParam
-    : { // support old schema for backwards compatibility
-      wrapperElementType: comboParam,
-      methodNames: restArgs[0] || undefined,
-      initPropNames: restArgs[1] || undefined
-    };
+export default function(kapsuleComponent, {
+  wrapperElementType = 'div',
+  nodeMapper = node => node,
+  methodNames = [],
+  initPropNames = []
+} = {}) {
 
   return forwardRef((props, ref) => {
     const domEl = useRef();
 
-    const [prevProps, setPrevProps] = useState({});
-    useEffect(() => { !shallowEq(props, prevProps) && setPrevProps(props) }); // remember previous props
-
     // instantiate the inner kapsule component with the defined initPropNames
     const comp = useMemo(() => {
-      const configOptions = fromEntries(
+      const configOptions = Object.fromEntries(
         initPropNames
           .filter(p => props.hasOwnProperty(p))
           .map(prop => [prop, props[prop]])
@@ -64,20 +49,21 @@ export default function(kapsuleComponent, comboParam, ...restArgs) {
     , [comp]);
 
     // propagate component props that have changed
-    const dynamicProps = omit(props, [...methodNames, ...initPropNames]); // initPropNames or methodNames should not be called
-    Object.keys(dynamicProps)
-      .filter(p => prevProps[p] !== props[p])
+    const prevPropsRef = useRef({});
+    Object.keys(omit(props, [...methodNames, ...initPropNames])) // initPropNames or methodNames should not be called
+      .filter(p => prevPropsRef.current[p] !== props[p])
       .forEach(p => _call(p, props[p]));
+    prevPropsRef.current = props;
 
     // bind external methods to parent ref
-    useImperativeHandle(ref, () => fromEntries(
+    useImperativeHandle(ref, () => Object.fromEntries(
       methodNames.map(method =>
         [
           method,
           (...args) => _call(method, ...args)
         ]
       )
-    ));
+    ), [_call]);
 
     return React.createElement(wrapperElementType, { ref: domEl });
   });
