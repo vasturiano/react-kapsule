@@ -1,6 +1,6 @@
 {
   "name": "react-kapsule",
-  "version": "2.5.2",
+  "version": "2.5.3",
   "description": "A React wrapper for Kapsule-style web components",
   "type": "module",
   "unpkg": "dist/react-kapsule.min.js",
