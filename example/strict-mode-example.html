@@ -1,14 +1,24 @@
-<script src="//unpkg.com/react@18/umd/react.development.js"></script>
-<script src="//unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script type="importmap">{ "imports": {
+    "react": "https://esm.sh/react",
+    "react-dom": "https://esm.sh/react-dom/client"
+  }}</script>
+<script type="module">
+  import * as React from 'react';
+  window.React = React;
+</script>
+
 <script src="//unpkg.com/@babel/standalone"></script>
 
-<script src="//unpkg.com/kapsule"></script>
-<script src="//unpkg.com/react-kapsule"></script>
-<!--<script src="../dist/react-kapsule.js"></script>-->
+<script src="//unpkg.com/react-kapsule" defer></script>
+<!--<script src="../dist/react-kapsule.js" defer></script>-->
 
 <body></body>
 
-<script type="text/jsx">
+<script type="text/jsx" data-type="module">
+  import { StrictMode } from 'react';
+  import { createRoot } from 'react-dom';
+  import Kapsule from 'https://esm.sh/kapsule';
+
   const { useState } = React;
 
   const Kap = fromKapsule(Kapsule({
@@ -42,10 +52,10 @@
     </>;
   };
 
-  ReactDOM.createRoot(document.body)
+  createRoot(document.body)
     .render(
-      <React.StrictMode>
+      <StrictMode>
         <App />
-      </React.StrictMode>
+      </StrictMode>
     );
 </script>
