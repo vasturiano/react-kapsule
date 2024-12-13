@@ -2,19 +2,16 @@
     "react": "https://esm.sh/react",
     "react-dom": "https://esm.sh/react-dom/client"
   }}</script>
-<script type="module">
-  import * as React from 'react';
-  window.React = React;
-</script>
 
-<script src="//unpkg.com/react-kapsule" defer></script>
+<!--<script type="module"> import * as React from 'react'; window.React = React;</script>-->
 <!--<script src="../dist/react-kapsule.js" defer></script>-->
 
 <body></body>
 
 <script src="//unpkg.com/@babel/standalone"></script>
 <script type="text/jsx" data-type="module">
-  import { StrictMode } from 'react';
+  import fromKapsule from 'https://esm.sh/react-kapsule';
+  import React from 'react';
   import { createRoot } from 'react-dom';
   import Kapsule from 'https://esm.sh/kapsule';
 
@@ -53,8 +50,8 @@
 
   createRoot(document.body)
     .render(
-      <StrictMode>
+      <React.StrictMode>
         <App />
-      </StrictMode>
+      </React.StrictMode>
     );
 </script>
