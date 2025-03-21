@@ -14,7 +14,7 @@ import fromKapsule from 'react-kapsule';
 ```
 or using a *script* tag
 ```html
-<script src="//unpkg.com/react-kapsule"></script>
+<script src="//cdn.jsdelivr.net/npm/react-kapsule"></script>
 ```
 
 ## Usage example

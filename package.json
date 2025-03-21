@@ -3,6 +3,7 @@
   "version": "2.5.6",
   "description": "A React wrapper for Kapsule-style web components",
   "type": "module",
+  "jsdelivr": "dist/react-kapsule.min.js",
   "unpkg": "dist/react-kapsule.min.js",
   "main": "dist/react-kapsule.mjs",
   "module": "dist/react-kapsule.mjs",
@@ -48,18 +49,18 @@
     "react": ">=16.13.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/preset-env": "^7.26.0",
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
     "@babel/preset-react": "^7.26.3",
     "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^28.0.1",
-    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
-    "@types/react": "^18.3.13",
+    "@types/react": "^19.0.12",
     "rimraf": "^6.0.1",
-    "rollup": "^4.28.0",
-    "rollup-plugin-dts": "^6.1.1",
-    "typescript": "^5.7.2"
+    "rollup": "^4.36.0",
+    "rollup-plugin-dts": "^6.2.1",
+    "typescript": "^5.8.2"
   },
   "engines": {
     "node": ">=12"
