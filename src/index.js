@@ -96,7 +96,13 @@ function useEffectOnce(effect, useEffectFn = useEffect) {
       // if the comp didn't render since the useEffect was called,
       // we know it's the dummy React cycle
       if (!renderAfterCalled.current) return;
+
       if (destroyFunc.current) destroyFunc.current();
+
+      // reset refs after teardown so a reused fiber re-initializes on remount
+      destroyFunc.current = undefined;
+      effectCalled.current = false;
+      renderAfterCalled.current = false;
     };
   }, []);
 }
