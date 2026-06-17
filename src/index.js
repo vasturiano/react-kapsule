@@ -97,8 +97,9 @@ function useEffectOnce(effect, useEffectFn = useEffect) {
       // we know it's the dummy React cycle
       if (!renderAfterCalled.current) return;
 
-      // reset refs after teardown so a reused fiber re-initializes on remount
       if (destroyFunc.current) destroyFunc.current();
+
+      // reset refs after teardown so a reused fiber re-initializes on remount
       destroyFunc.current = undefined;
       effectCalled.current = false;
       renderAfterCalled.current = false;
